@@ -14,16 +14,20 @@ export default function LoginPage() {
     setError(null)
     setLoading(true)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('Invalid email or password.')
+      setError('Invalid email or password: ' + error.message)
       setLoading(false)
       return
     }
 
-    // Hard redirect so middleware picks up the new session cookie
-    window.location.href = '/'
+    if (data?.session) {
+      window.location.replace('/')
+    } else {
+      setError('Login succeeded but no session was created. Please try again.')
+      setLoading(false)
+    }
   }
 
   return (
