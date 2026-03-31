@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase } from '../lib/supabase'
 
 // ── constants ────────────────────────────────────────────────────────────────
@@ -245,12 +246,26 @@ function Modal({ lead, onClose, onSave, onDelete }) {
 // ── main app ─────────────────────────────────────────────────────────────────
 
 export default function LeadsApp() {
+  const router = useRouter()
   const [leads, setLeads]           = useState([])
   const [loading, setLoading]       = useState(true)
   const [activeFilter, setFilter]   = useState('all')
   const [assigneeFilter, setAssignee] = useState('all')
-  const [modal, setModal]           = useState(null) // null | 'add' | lead object
+  const [modal, setModal]           = useState(null)
   const [toast, setToast]           = useState(null)
+  const [userEmail, setUserEmail]   = useState('')
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data?.user) setUserEmail(data.user.email)
+    })
+  }, [])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
+  }
 
   const showToast = (msg) => {
     setToast(msg)
@@ -329,6 +344,11 @@ export default function LeadsApp() {
       <header className="topbar">
         <div className="topbar-logo">leads<span>.tracker</span></div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {userEmail && (
+            <span style={{ fontSize: '12px', color: '#a09f9a', fontFamily: 'DM Mono, monospace' }}>
+              {userEmail}
+            </span>
+          )}
           <select
             className="assignee-select"
             value={assigneeFilter}
@@ -340,6 +360,9 @@ export default function LeadsApp() {
           </select>
           <button className="btn btn-primary btn-sm" onClick={() => setModal('add')}>
             + Add lead
+          </button>
+          <button className="btn btn-ghost btn-sm" onClick={handleSignOut}>
+            Sign out
           </button>
         </div>
       </header>
