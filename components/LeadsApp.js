@@ -21,7 +21,7 @@ const EMPTY_FORM = {
   phone: '', email: '',
   messaging: [], preferred_contact: [],
   last_contact: '',
-  status: 'new', assignee: 'Me',
+  status: 'new', assignee: 'Milos',
   pitch: '', notes: '',
 }
 
@@ -211,8 +211,8 @@ function Modal({ lead, onClose, onSave, onDelete }) {
           <div className="field">
             <label className="field-label">Assigned to</label>
             <select value={form.assignee} onChange={e => set('assignee', e.target.value)}>
-              <option value="Me">Me</option>
-              <option value="Partner">Partner</option>
+              <option value="Milos">Milos</option>
+              <option value="Milenko">Milenko</option>
             </select>
           </div>
         </div>
@@ -355,8 +355,8 @@ export default function LeadsApp() {
             onChange={e => setAssignee(e.target.value)}
           >
             <option value="all">All assignees</option>
-            <option value="Me">Me</option>
-            <option value="Partner">Partner</option>
+            <option value="Milos">Milos</option>
+            <option value="Milenko">Milenko</option>
           </select>
           <button className="btn btn-primary btn-sm" onClick={() => setModal('add')}>
             + Add lead
