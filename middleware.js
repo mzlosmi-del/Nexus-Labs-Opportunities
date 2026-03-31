@@ -1,28 +1,21 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
 export async function middleware(req) {
-  const res = NextResponse.next()
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-      cookies: {
-        get: (name) => req.cookies.get(name)?.value,
-        set: (name, value, options) => res.cookies.set({ name, value, ...options }),
-        remove: (name, options) => res.cookies.set({ name, value: '', ...options }),
-      },
-    }
-  )
-
-  const { data: { session } } = await supabase.auth.getSession()
   const isLoginPage = req.nextUrl.pathname === '/login'
 
-  if (!session && !isLoginPage) return NextResponse.redirect(new URL('/login', req.url))
-  if (session && isLoginPage) return NextResponse.redirect(new URL('/', req.url))
+  // Check for supabase auth token in cookies
+  const token = req.cookies.get('sb-vcctyhglcilodnvaqszk-auth-token')
+  const hasSession = !!token
 
-  return res
+  if (!hasSession && !isLoginPage) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
+
+  if (hasSession && isLoginPage) {
+    return NextResponse.redirect(new URL('/', req.url))
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {

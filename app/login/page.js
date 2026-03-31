@@ -1,11 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [error, setError]       = useState(null)
@@ -24,8 +22,8 @@ export default function LoginPage() {
       return
     }
 
-    router.push('/')
-    router.refresh()
+    // Hard redirect so middleware picks up the new session cookie
+    window.location.href = '/'
   }
 
   return (
@@ -64,13 +62,9 @@ export default function LoginPage() {
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: '1rem' }}>
             <label style={{
-              display: 'block',
-              fontSize: '11px',
-              color: '#a09f9a',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: '6px',
-              fontFamily: "'DM Mono', monospace",
+              display: 'block', fontSize: '11px', color: '#a09f9a',
+              textTransform: 'uppercase', letterSpacing: '0.06em',
+              marginBottom: '6px', fontFamily: "'DM Mono', monospace",
             }}>Email</label>
             <input
               type="email"
@@ -79,29 +73,19 @@ export default function LoginPage() {
               placeholder="you@example.com"
               required
               style={{
-                width: '100%',
-                fontSize: '13px',
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: '1px solid rgba(0,0,0,0.18)',
-                background: '#f5f4f0',
-                color: '#1a1916',
-                outline: 'none',
-                fontFamily: "'DM Sans', sans-serif",
-                boxSizing: 'border-box',
+                width: '100%', fontSize: '13px', padding: '10px 12px',
+                borderRadius: '8px', border: '1px solid rgba(0,0,0,0.18)',
+                background: '#f5f4f0', color: '#1a1916', outline: 'none',
+                fontFamily: "'DM Sans', sans-serif", boxSizing: 'border-box',
               }}
             />
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{
-              display: 'block',
-              fontSize: '11px',
-              color: '#a09f9a',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: '6px',
-              fontFamily: "'DM Mono', monospace",
+              display: 'block', fontSize: '11px', color: '#a09f9a',
+              textTransform: 'uppercase', letterSpacing: '0.06em',
+              marginBottom: '6px', fontFamily: "'DM Mono', monospace",
             }}>Password</label>
             <input
               type="password"
@@ -110,29 +94,19 @@ export default function LoginPage() {
               placeholder="••••••••"
               required
               style={{
-                width: '100%',
-                fontSize: '13px',
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: '1px solid rgba(0,0,0,0.18)',
-                background: '#f5f4f0',
-                color: '#1a1916',
-                outline: 'none',
-                fontFamily: "'DM Sans', sans-serif",
-                boxSizing: 'border-box',
+                width: '100%', fontSize: '13px', padding: '10px 12px',
+                borderRadius: '8px', border: '1px solid rgba(0,0,0,0.18)',
+                background: '#f5f4f0', color: '#1a1916', outline: 'none',
+                fontFamily: "'DM Sans', sans-serif", boxSizing: 'border-box',
               }}
             />
           </div>
 
           {error && (
             <div style={{
-              fontSize: '13px',
-              color: '#8a2020',
-              background: '#fde8e8',
-              border: '1px solid #f5b8b8',
-              borderRadius: '8px',
-              padding: '10px 12px',
-              marginBottom: '1rem',
+              fontSize: '13px', color: '#8a2020', background: '#fde8e8',
+              border: '1px solid #f5b8b8', borderRadius: '8px',
+              padding: '10px 12px', marginBottom: '1rem',
             }}>{error}</div>
           )}
 
@@ -140,18 +114,12 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             style={{
-              width: '100%',
-              padding: '11px',
-              borderRadius: '8px',
-              border: 'none',
-              background: '#1a1916',
-              color: '#fff',
-              fontSize: '14px',
-              fontWeight: 500,
+              width: '100%', padding: '11px', borderRadius: '8px',
+              border: 'none', background: '#1a1916', color: '#fff',
+              fontSize: '14px', fontWeight: 500,
               cursor: loading ? 'not-allowed' : 'pointer',
               opacity: loading ? 0.7 : 1,
-              fontFamily: "'DM Sans', sans-serif",
-              transition: 'opacity 0.12s',
+              fontFamily: "'DM Sans', sans-serif", transition: 'opacity 0.12s',
             }}
           >
             {loading ? 'Signing in…' : 'Sign in'}
