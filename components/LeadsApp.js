@@ -63,6 +63,21 @@ function ToggleBtn({ label, active, cls, onClick }) {
   )
 }
 
+function ExpandableText({ text, className, maxWidth }) {
+  const [expanded, setExpanded] = useState(false)
+  if (!text) return null
+  return (
+    <div
+      className={className}
+      style={{ maxWidth: expanded ? 'none' : maxWidth, whiteSpace: expanded ? 'normal' : 'nowrap', overflow: expanded ? 'visible' : 'hidden', textOverflow: expanded ? 'unset' : 'ellipsis', cursor: 'zoom-in', userSelect: 'none' }}
+      onDoubleClick={e => { e.stopPropagation(); setExpanded(v => !v) }}
+      title={expanded ? 'Double-click to collapse' : 'Double-click to expand'}
+    >
+      {text}
+    </div>
+  )
+}
+
 function LeadCard({ lead, onClick }) {
   const lcLabel = formatLastContact(lead.last_contact)
   const stale   = lead.last_contact && daysSince(lead.last_contact) > 7
@@ -100,7 +115,10 @@ function LeadCard({ lead, onClick }) {
         )}
 
         {lead.pitch && (
-          <div className="lead-pitch">{lead.pitch}</div>
+          <ExpandableText text={lead.pitch} className="lead-pitch" maxWidth="440px" />
+        )}
+        {lead.notes && (
+          <ExpandableText text={lead.notes} className="lead-pitch" maxWidth="440px" />
         )}
       </div>
 
