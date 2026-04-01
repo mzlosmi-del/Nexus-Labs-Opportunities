@@ -18,7 +18,7 @@ const MSG_CLS       = { viber: 'on-viber', whatsapp: 'on-whatsapp' }
 
 const EMPTY_FORM = {
   name: '', contact: '', sector: '',
-  phone: '', email: '',
+  phone: '', email: '', website: '',
   messaging: [], preferred_contact: [],
   last_contact: '',
   status: 'new', assignee: 'Milos',
@@ -76,10 +76,11 @@ function LeadCard({ lead, onClick }) {
           {[lead.sector, lead.contact].filter(Boolean).join(' · ')}
         </div>
 
-        {(lead.phone || lead.email) && (
+        {(lead.phone || lead.email || lead.website) && (
           <div className="lead-contacts">
             {lead.phone && <span>📞 {lead.phone}</span>}
             {lead.email && <span>✉ {lead.email}</span>}
+            {lead.website && <span>🌐 {lead.website}</span>}
           </div>
         )}
 
@@ -165,6 +166,11 @@ function Modal({ lead, onClose, onSave, onDelete }) {
             <label className="field-label">Email address</label>
             <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="name@example.com" />
           </div>
+        </div>
+
+        <div className="field">
+          <label className="field-label">Website</label>
+          <input type="text" value={form.website} onChange={e => set('website', e.target.value)} placeholder="https://example.com" />
         </div>
 
         <div className="field">
@@ -301,6 +307,7 @@ export default function LeadsApp() {
       sector:            form.sector.trim(),
       phone:             form.phone.trim(),
       email:             form.email.trim(),
+      website:           form.website.trim(),
       messaging:         form.messaging,
       preferred_contact: form.preferred_contact,
       last_contact:      form.last_contact || null,
@@ -342,7 +349,24 @@ export default function LeadsApp() {
   return (
     <div className="app">
       <header className="topbar">
-        <div className="topbar-logo">leads<span>.tracker</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="8" fill="#1a1916"/>
+            <circle cx="14" cy="14" r="4" fill="none" stroke="#fff" strokeWidth="1.5"/>
+            <circle cx="14" cy="6" r="2" fill="#fff"/>
+            <circle cx="14" cy="22" r="2" fill="#fff"/>
+            <circle cx="6" cy="14" r="2" fill="#fff"/>
+            <circle cx="22" cy="14" r="2" fill="#fff"/>
+            <line x1="14" y1="8" x2="14" y2="10" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="14" y1="18" x2="14" y2="20" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="8" y1="14" x2="10" y2="14" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="18" y1="14" x2="20" y2="14" stroke="#fff" strokeWidth="1.5"/>
+          </svg>
+          <div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 600, color: '#1a1916', lineHeight: 1.2 }}>Nexus Labs</div>
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '10px', color: '#a09f9a', lineHeight: 1.2 }}>leads.tracker</div>
+          </div>
+        </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           {userEmail && (
             <span style={{ fontSize: '12px', color: '#a09f9a', fontFamily: 'DM Mono, monospace' }}>

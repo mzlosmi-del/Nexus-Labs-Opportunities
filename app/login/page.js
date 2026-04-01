@@ -48,14 +48,23 @@ export default function LoginPage() {
         width: '100%',
         maxWidth: '380px',
       }}>
-        <div style={{
-          fontFamily: "'DM Mono', monospace",
-          fontSize: '15px',
-          fontWeight: 500,
-          marginBottom: '2rem',
-          color: '#1a1916',
-        }}>
-          leads<span style={{ color: '#a09f9a' }}>.tracker</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2rem' }}>
+          <svg width="36" height="36" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="8" fill="#1a1916"/>
+            <circle cx="14" cy="14" r="4" fill="none" stroke="#fff" strokeWidth="1.5"/>
+            <circle cx="14" cy="6" r="2" fill="#fff"/>
+            <circle cx="14" cy="22" r="2" fill="#fff"/>
+            <circle cx="6" cy="14" r="2" fill="#fff"/>
+            <circle cx="22" cy="14" r="2" fill="#fff"/>
+            <line x1="14" y1="8" x2="14" y2="10" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="14" y1="18" x2="14" y2="20" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="8" y1="14" x2="10" y2="14" stroke="#fff" strokeWidth="1.5"/>
+            <line x1="18" y1="14" x2="20" y2="14" stroke="#fff" strokeWidth="1.5"/>
+          </svg>
+          <div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', fontWeight: 600, color: '#1a1916', lineHeight: 1.2 }}>Nexus Labs</div>
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '11px', color: '#a09f9a', lineHeight: 1.4 }}>leads.tracker</div>
+          </div>
         </div>
 
         <div style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px' }}>Sign in</div>
